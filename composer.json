@@ -1,0 +1,27 @@
+{
+  "name": "rhymedigital/rhyme_slate_pages",
+  "type": "symfony-bundle",
+  "description": "Symfony integration for Slate Pages",
+  "license": "LGPL-3.0-or-later",
+  "keywords": [
+    "Slate",
+    "Slate Pages"
+  ],
+  "authors": [
+    {
+      "name": "Rhyme Digital",
+      "homepage": "https://github.com/rhymedigital"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "guzzlehttp/guzzle": "~6.0",
+    "symfony/filesystem": "^4 || ^5",
+    "symfony/dotenv": "^4 || ^5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Rhyme\\SlatePages\\": "src"
+    }
+  }
+}
