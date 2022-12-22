@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2022 Rhyme Digital, LLC.
+ * Copyright (C) 2023 Rhyme Digital, LLC.
  *
  * @link		https://rhyme.digital
  * @license		http://www.gnu.org/licenses/lgpl-3.0.html LGPL
@@ -21,6 +21,8 @@ use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\BadResponseException;
 use Psr\Http\Message\ResponseInterface;
 use Rhyme\SlatePages\Config;
+use Rhyme\SlatePages\Exception\ServerErrorException;
+use Rhyme\SlatePages\Exception\ValidationFailedException;
 
 
 /**
@@ -39,6 +41,7 @@ class Client extends GuzzleClient
      */
     public function request($method, $uri = '', array $options = [])
     {
+        $response = null;
         $uri = \strpos($uri, '/') === 0 ? \substr($uri, 1) : $uri;
 
         // If this is the first time, use the email address/password to get an initial JWT token
@@ -73,15 +76,43 @@ class Client extends GuzzleClient
         }
 
         // Now we have a token, do the request
-        $response = parent::request($method, Config::HOST . $uri, \array_merge([
-            'headers' => [
-                'Content-Type'      => 'application/json',
-                'Authorization'     => Config::getParameter(Config::TOKEN_KEY),
-            ],
-        ], $options));
+        try {
+            $response = parent::request($method, Config::HOST . $uri, \array_merge([
+                'headers' => [
+                    'Content-Type'      => 'application/json',
+                    'Authorization'     => Config::getParameter(Config::TOKEN_KEY),
+                ],
+            ], $options));
+        }
+        catch (ClientException $ce) {
+
+            // See if we can use our custom exception
+            if ($ce->getCode() === 422) {
+                throw new ValidationFailedException('Validation failed: '.$ce->getMessage(),
+                    $ce->getRequest(),
+                    $ce->getResponse(),
+                    $ce
+                );
+            }
+
+            throw $ce;
+        }
+        catch (ServerException $se) {
+
+            // See if we can use our custom exception
+            if ($se->getCode() === 500) {
+                throw new ServerErrorException('Slate Pages server error: '.$se->getMessage(),
+                    $se->getRequest(),
+                    $se->getResponse(),
+                    $se
+                );
+            }
+
+            throw $se;
+        }
 
         // Make sure we store any new tokens here too
-        if (!empty($arrAuth = $response->getHeader('Authorization')))
+        if ($response !== null && !empty($arrAuth = $response->getHeader('Authorization')))
         {
             Config::setParameter(Config::TOKEN_KEY, $arrAuth[0]);
             Config::saveToDotEnv();
