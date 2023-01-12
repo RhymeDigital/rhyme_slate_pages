@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2022 Rhyme Digital, LLC.
+ * Copyright (C) 2023 Rhyme Digital, LLC.
  *
  * @link		https://rhyme.digital
  * @license		http://www.gnu.org/licenses/lgpl-3.0.html LGPL
@@ -10,9 +10,12 @@
 namespace Rhyme\SlatePages\Api\Slate;
 
 use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Exception\ClientException;
 use Rhyme\SlatePages\Api\ApiAbstract;
+use Rhyme\SlatePages\Utils;
 use Rhyme\SlatePages\Client;
 use Rhyme\SlatePages\Api\Account\Account as AccountApi;
+use Rhyme\SlatePages\Exception\ValidationFailedException;
 
 /**
  * Class Slate
@@ -44,7 +47,6 @@ class Slate extends ApiAbstract
         ]);
     }
 
-
     /**
      * @param string $slateUuid
      * @param string $accountUuid
@@ -60,7 +62,7 @@ class Slate extends ApiAbstract
         foreach ($arrData as $key=>$val) {
             $arrBody[] = [
                 'op'        => 'replace',
-                'path'      => '/fields/'.ApiAbstract::getFieldUUIDByTitle($key, $arrFields).'/value',
+                'path'      => '/fields/'.Utils::getFieldUUIDByTitle($key, $arrFields).'/value',
                 'value'     => $val,
             ];
         }
