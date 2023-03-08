@@ -73,6 +73,18 @@ class Utils
     }
 
     /**
+     * @param array $arrFields
+     * @return array
+     */
+    public static function getFieldTitlesForSlate(array $arrFields): array {
+        $arrTitles = [];
+        foreach ($arrFields as $uuid=>$data) {
+            $arrTitles[] = $data['title'];
+        }
+        return $arrTitles;
+    }
+
+    /**
      * @param ResponseInterface $response
      * @return array
      */
