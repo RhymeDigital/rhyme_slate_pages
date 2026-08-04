@@ -15,7 +15,7 @@
   ],
   "require": {
     "php": "^7.4 || ^8.0",
-    "guzzlehttp/guzzle": "~6.0",
+    "guzzlehttp/guzzle": "^7.15",
     "symfony/filesystem": "^4 || ^5",
     "symfony/dotenv": "^4 || ^5"
   },
