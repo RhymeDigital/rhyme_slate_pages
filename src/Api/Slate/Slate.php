@@ -10,12 +10,8 @@
 namespace Rhyme\SlatePages\Api\Slate;
 
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Exception\ClientException;
 use Rhyme\SlatePages\Api\ApiAbstract;
 use Rhyme\SlatePages\Utils;
-use Rhyme\SlatePages\Client;
-use Rhyme\SlatePages\Api\Account\Account as AccountApi;
-use Rhyme\SlatePages\Exception\ValidationFailedException;
 
 /**
  * Class Slate

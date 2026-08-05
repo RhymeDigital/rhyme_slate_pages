@@ -9,7 +9,6 @@
 
 namespace Rhyme\SlatePages\Api;
 
-use GuzzleHttp\Client;
 use Rhyme\SlatePages\Client as SlateClient;
 
 
