@@ -10,7 +10,6 @@
 namespace Rhyme\SlatePages\Api\Account;
 
 use Psr\Http\Message\ResponseInterface;
-use Rhyme\SlatePages\Client;
 use Rhyme\SlatePages\Api\ApiAbstract;
 
 /**

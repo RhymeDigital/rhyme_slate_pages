@@ -10,17 +10,10 @@
 namespace Rhyme\SlatePages;
 
 use Exception;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Exception\InvalidArgumentException;
-use GuzzleHttp\Promise;
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Message\Request;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Exception\BadResponseException;
 use Psr\Http\Message\ResponseInterface;
-use Rhyme\SlatePages\Config;
 use Rhyme\SlatePages\Exception\ServerErrorException;
 use Rhyme\SlatePages\Exception\ValidationFailedException;
 
@@ -39,7 +32,7 @@ class Client extends GuzzleClient
      * @return ResponseInterface
      * @throws Exception
      */
-    public function request($method, $uri = '', array $options = [])
+    public function request(string $method, $uri = '', array $options = []): ResponseInterface
     {
         $response = null;
         $uri = \strpos($uri, '/') === 0 ? \substr($uri, 1) : $uri;
