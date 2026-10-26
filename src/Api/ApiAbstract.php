@@ -28,7 +28,6 @@ class ApiAbstract
      */
     public function __construct() {
         static::initialize();
-        parent::__construct();
     }
 
     /**
